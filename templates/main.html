@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>TheHeartOfTuxes</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">TheHeartOfTuxes</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <!--<ul class="navbar-nav ml-auto">
+
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('subreddit',subreddit="Buddhism") }}">Buddhism
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('subreddit',subreddit="Meditation") }}">Meditation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('subreddit',subreddit="malefashionadvice") }}">malefashionadvice</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('subreddit',subreddit="zen") }}">zen</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('subreddit',subreddit="taoism") }}">taoism</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('subreddit',subreddit="AskReddit") }}">AskReddit</a>
+          </li>
+        </ul>-->
+		<form class="form-inline" action="{{ url_for('subreddit_search',subreddit=subreddit) }}" method="post">
+		  <input class="form-control" type="text" placeholder="Search in {{subreddit}}" aria-label="Search" name="searchstring">
+		</form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 ">
+		<ul class="list-unstyled">
+          <li style="font-size:10px">post: {{post|int}}, score: {{score|int}}, polarity: {{sentiment.polarity}}, subjectivity: {{sentiment.subjectivity}}, date: {{date}}</li>
+        </ul>
+		<h5><a href="https://www.reddit.com{{permalink}}">[{{subreddit}}] {{title}}</a></h5>
+
+		<div class="p-3 mb-2 bg-light text-dark">
+			{% if author !="" %}
+			<a href="https://www.reddit.com/u/{{author}}" class="badge badge-pill badge-light">{{author}}:</a>
+			{% endif %}
+			{{parent|safe}}
+		</div>
+        <div class="p-3 mb-2 bg-white text-dark">
+			<a href="https://www.reddit.com/u/TheHeartOfTuxes" class="badge badge-pill badge-light">TheHeartOfTuxes:</a>
+			{{content|safe}}
+		</div>      
+		
+		<nav aria-label="navigation">
+		<ul class="pagination pagination-sm justify-content-center">
+			{% if post-1 >=0 %}
+			<li class="page-item"><a class="page-link" href="{{ url_for('subreddit_post',subreddit=subreddit,post=post-1) }}">Previous</a></li>
+			{% endif %}
+			{% if post+1 <count %}
+			<li class="page-item"><a class="page-link" href="{{ url_for('subreddit_post',subreddit=subreddit,post=post+1) }}">Next</a></li>
+			{% endif %}
+			<li class="page-item">
+			<a class="page-link" href="{{ url_for('subreddit_post',subreddit=subreddit,post=range(0,count)|random() ) }}">Random</a>
+			</li>
+		</ul>
+		</nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
